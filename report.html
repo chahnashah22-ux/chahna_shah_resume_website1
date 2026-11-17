@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Portfolio Design & Technical Architecture Report — Chahna Shah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 14mm 14mm;
+    }
+
+    :root {
+      --font-serif: "Playfair Display", Georgia, serif;
+      --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+      --canvas: #faf9f6;
+      --surface: #ffffff;
+      --surface-tint: #f4f3ee;
+      --hairline: #e2e0d6;
+      --ink: #1c1d1a;
+      --ink-secondary: #52544c;
+      --accent: #2f4838;
+      --accent-soft: #e7ece5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 9.5pt;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .header-bar {
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .report-title {
+      font-family: var(--font-serif);
+      font-size: 19pt;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 4px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .report-subtitle {
+      font-size: 9pt;
+      color: var(--ink-secondary);
+      margin: 0;
+    }
+
+    .report-date {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      color: var(--accent);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .links-box {
+      background: var(--surface-tint);
+      border: 1px solid var(--hairline);
+      border-left: 4px solid var(--accent);
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .links-box div {
+      font-size: 9pt;
+    }
+
+    .links-box span {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: 12pt;
+      color: var(--accent);
+      margin: 12px 0 6px 0;
+      border-bottom: 1px solid var(--hairline);
+      padding-bottom: 3px;
+    }
+
+    h3 {
+      font-size: 10pt;
+      font-weight: 700;
+      margin: 8px 0 4px 0;
+      color: var(--ink);
+    }
+
+    p {
+      margin: 0 0 6px 0;
+      color: var(--ink-secondary);
+    }
+
+    .flowchart {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin: 8px 0 12px 0;
+      background: #fbfbfa;
+      border: 1px solid var(--hairline);
+      padding: 8px 10px;
+      border-radius: 4px;
+    }
+
+    .flow-step {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 8pt;
+      text-align: center;
+      flex: 1;
+    }
+
+    .flow-step strong {
+      display: block;
+      color: var(--accent);
+      font-size: 8.5pt;
+    }
+
+    .flow-arrow {
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 10pt;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      font-size: 8.5pt;
+    }
+
+    th, td {
+      border: 1px solid var(--hairline);
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) td {
+      background: #fafaf8;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 7.5pt;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .badge-old {
+      background: #f0e6e6;
+      color: #8c3b3b;
+    }
+
+    .badge-new {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+      padding-top: 6px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: #fafaf8;
+      border: 1px solid var(--hairline);
+      padding: 8px 10px;
+      border-radius: 4px;
+    }
+
+    .card h4 {
+      margin: 0 0 4px 0;
+      font-size: 9pt;
+      color: var(--accent);
+    }
+
+    .code-pill {
+      font-family: var(--font-mono);
+      font-size: 7.5pt;
+      background: #edece6;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    ul {
+      margin: 0 0 6px 0;
+      padding-left: 16px;
+      color: var(--ink-secondary);
+    }
+
+    li { margin-bottom: 2px; }
+
+    .footer-note {
+      margin-top: 10px;
+      padding-top: 6px;
+      border-top: 1px solid var(--hairline);
+      font-size: 7.5pt;
+      color: #888a80;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="header-bar">
+    <div>
+      <h1 class="report-title">Portfolio Architecture & Design Report</h1>
+      <p class="report-subtitle">Candidate: <strong>Chahna Shah</strong> · Integrated BBA–MBA (Nirma) & BBA DBE (IIM Bangalore)</p>
+    </div>
+    <div class="report-date">
+      NOVEMBER 2026<br>
+      SYSTEM REPORT v1.0
+    </div>
+  </div>
+
+  <div class="links-box">
+    <div>
+      <span>Live Production Website</span>
+      <a href="https://chahnashah22-ux.github.io/chahna_shah_resume_website1/" target="_blank">https://chahnashah22-ux.github.io/chahna_shah_resume_website1/</a>
+    </div>
+    <div>
+      <span>GitHub Repository</span>
+      <a href="https://github.com/chahnashah22-ux/chahna_shah_resume_website1" target="_blank">https://github.com/chahnashah22-ux/chahna_shah_resume_website1</a>
+    </div>
+  </div>
+
+  <h2>1. Executive Summary & Design Transition</h2>
+  <p>
+    This report documents the evolution of Chahna Shah’s digital presence from an initial static template (<code>index (1).html</code>) into an editorial, publication-grade portfolio and interactive resume (<code>index.html</code>). The redesign balances two distinct professional objectives: providing an interactive, engaging digital portfolio for hiring managers and academic panels, while simultaneously functioning as a print-optimized, ATS-friendly physical resume engine.
+  </p>
+
+  <div class="flowchart">
+    <div class="flow-step">
+      <strong>Initial Prototype</strong>
+      Single-line minified HTML, flat cards
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+      <strong>Editorial System</strong>
+      60-30-10 palette, tri-font stack
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+      <strong>Interactive Layer</strong>
+      Vanilla JS filters, modal dialogs
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+      <strong>Dual-Engine Output</strong>
+      Web app + <code>@media print</code> resume
+    </div>
+  </div>
+
+  <h2>2. Comparative Breakdown: Original vs. Enhanced Implementation</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 18%;">Dimension</th>
+        <th style="width: 38%;">Initial Implementation (<code>index (1).html</code>)</th>
+        <th style="width: 44%;">Enhanced Implementation (<code>index.html</code>)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Design System &amp; Palette</strong></td>
+        <td><span class="badge badge-old">Basic</span> Flat white cards, heavy solid borders, unstandardized muted greens without contrast hierarchy.</td>
+        <td><span class="badge badge-new">Editorial 60-30-10</span> 60% Warm Alabaster Canvas (<code>#faf9f6</code>), 30% Crisp Surface (<code>#ffffff</code>), 10% Botanical Sage (<code>#2f4838</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>Typography</strong></td>
+        <td><span class="badge badge-old">2 Fonts</span> Standard Google font pairing (<code>DM Sans</code> + <code>Playfair Display</code>) with text overflow on small viewports.</td>
+        <td><span class="badge badge-new">3 Specialized Fonts</span> <code>Playfair Display</code> (editorial serif), <code>Plus Jakarta Sans</code> (high-legibility body), and <code>JetBrains Mono</code> (metadata).</td>
+      </tr>
+      <tr>
+        <td><strong>Interactivity</strong></td>
+        <td><span class="badge badge-old">Static</span> Plain text cards without user interaction or category breakdown.</td>
+        <td><span class="badge badge-new">Dynamic</span> Client-side category filters for Education and Skills; interactive deep-dive modal for project case studies.</td>
+      </tr>
+      <tr>
+        <td><strong>Print Compatibility</strong></td>
+        <td><span class="badge badge-old">Fails on Print</span> Prints dark backgrounds, navigation buttons, broken margins, and unformatted sections.</td>
+        <td><span class="badge badge-new">Native Print Engine</span> Autonomous <code>@media print</code> stylesheet strips chrome, injects candidate contact bar, and prevents awkward breaks.</td>
+      </tr>
+      <tr>
+        <td><strong>Code Architecture</strong></td>
+        <td><span class="badge badge-old">Unstructured</span> 1 continuous minified line (246 KB) lacking comments or modularity.</td>
+        <td><span class="badge badge-new">Clean &amp; Accessible</span> Valid HTML5 semantic landmarks, ARIA attributes, structured CSS tokens, and self-contained base64 images.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer-note">
+    <span>PORTFOLIO DESIGN &amp; ARCHITECTURE REPORT</span>
+    <span>PAGE 1 OF 2</span>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page-break"></div>
+
+  <div class="header-bar">
+    <div>
+      <h1 class="report-title" style="font-size: 15pt;">Technical Implementation & Code Architecture</h1>
+      <p class="report-subtitle">HTML5, CSS3 Custom Properties, Vanilla JavaScript &amp; Print System</p>
+    </div>
+    <div class="report-date">
+      PAGE 2 OF 2
+    </div>
+  </div>
+
+  <h2>3. Design System & Typographic Details</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>The 60-30-10 Color Theory</h4>
+      <p>
+        The color system is organized into explicit CSS custom variables:
+      </p>
+      <ul>
+        <li><strong>60% Canvas (<span class="code-pill">#faf9f6</span>):</strong> Warm, low-fatigue background reminiscent of premium unbleached stock.</li>
+        <li><strong>30% Surface (<span class="code-pill">#ffffff</span>, <span class="code-pill">#f2f1ec</span>):</strong> Architectural surface panels divided by 1px hairlines.</li>
+        <li><strong>10% Accent (<span class="code-pill">#2f4838</span>):</strong> Botanical Forest Sage reserved strictly for CTAs, active filters, and anchors.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Typographic Precision</h4>
+      <p>
+        Typography combines editorial warmth with analytical rigor:
+      </p>
+      <ul>
+        <li><span class="code-pill">text-wrap: balance</span>: Automatically balances multi-line headlines, eliminating lone orphan words.</li>
+        <li><span class="code-pill">tabular-nums</span>: Forces monospace numeric alignment across dates (e.g. <code>2026 – Present</code>) and percentages.</li>
+        <li><span class="code-pill">clamp(2.75rem, 6vw, 5.25rem)</span>: Smooth fluid font sizing across mobile, tablet, and ultra-wide screens.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>4. HTML5 & Vanilla JavaScript Architecture</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Client-Side Category Filtering</h4>
+      <p>
+        Zero-dependency JavaScript listens to filter buttons (<code>#edu-filters</code>, <code>#skill-filters</code>) and updates card visibility using <code>data-filter</code> matches. Screen-reader states are updated in real-time via <code>aria-pressed</code>.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Interactive Case Study Modal Dialog</h4>
+      <p>
+        Clicking on <em>Chaah Jewels</em>, <em>Social Mobility Documentary</em>, or <em>Art &amp; Design</em> opens a structured modal with key focus areas and takeaways. Includes background scroll lock and keyboard <span class="code-pill">Escape</span> handling.
+      </p>
+    </div>
+  </div>
+
+  <h2>5. Autonomous Print & PDF Engine (<code>@media print</code>)</h2>
+  <p>
+    A dedicated print stylesheet ensures that anyone visiting the site can immediately export a professional executive CV by printing to PDF (<code>Cmd + P</code>) or clicking "Print Resume":
+  </p>
+  <ul>
+    <li><strong>Interface Stripping:</strong> Navigation bar, action buttons, filter pills, and footers are suppressed via <span class="code-pill">.no-print { display: none !important; }</span>.</li>
+    <li><strong>Executive Print Header:</strong> The <span class="code-pill">.print-only-bar</span> displays the candidate's name, degree tracks, and contact email (<code>chahnashah22@gmail.com</code>).</li>
+    <li><strong>Pagination Control:</strong> <span class="code-pill">break-inside: avoid</span> ensures individual education cards and project descriptions are never awkwardly split across page margins.</li>
+  </ul>
+
+  <h2>6. Production Deployment & Live Infrastructure</h2>
+  <p>
+    The project is committed and deployed on GitHub under branch <code>main</code> with GitHub Pages hosting enabled:
+  </p>
+  <ul>
+    <li><strong>Live URL:</strong> <a href="https://chahnashah22-ux.github.io/chahna_shah_resume_website1/" target="_blank">https://chahnashah22-ux.github.io/chahna_shah_resume_website1/</a></li>
+    <li><strong>Source Repository:</strong> <a href="https://github.com/chahnashah22-ux/chahna_shah_resume_website1" target="_blank">https://github.com/chahnashah22-ux/chahna_shah_resume_website1</a></li>
+    <li><strong>Reliability:</strong> Complete self-containment with embedded lossless base64 portrait graphics guarantees zero broken asset links and immediate load times worldwide.</li>
+  </ul>
+
+  <div class="footer-note" style="margin-top: 18px;">
+    <span>© 2026 CHAHNA SHAH · PORTFOLIO ARCHITECTURE REPORT</span>
+    <span>PAGE 2 OF 2</span>
+  </div>
+
+</body>
+</html>
